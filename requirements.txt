@@ -1,0 +1,6 @@
+dimod>=0.12
+dwave-neal>=0.6
+# Optional: only needed for D-Wave QPU access
+# dwave-system>=1.20
+# Tests:
+pytest>=7
