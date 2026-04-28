@@ -29,7 +29,7 @@ with:
 ## Installation
 
 ```bash
-git clone <repo url>
+git clone https://github.com/alilotfi90/nzflow-qubo.git
 cd nzflow-qubo
 pip install -r requirements.txt
 pip install -e .
@@ -98,15 +98,14 @@ pytest tests/ -v
 
 The test suite checks all three verification levels from the paper:
 
-- **C1** — every nowhere-zero $\mathbb{Z}_k$-flow encodes to
-  $H_{\mathrm{mod},k} = 0$
+- **C1** — every nowhere-zero Z_k-flow encodes to H_{mod,k} = 0
 - **C2** — random non-flow labellings have positive minimum energy after
   optimizing over quotient bits
 - **C3** — exact ground-state enumeration finds exactly as many
   zero-energy states as the brute-force flow enumerator
 
 It also runs robustness sweeps over orientation, root choice, and
-penalty weights $(A, B)$, confirming the parameter-independence
+penalty weights (A, B), confirming the parameter-independence
 guaranteed by Theorem 3.5.
 
 ## Structure
