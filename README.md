@@ -140,16 +140,4 @@ examples/
 ## License
 
 MIT.
-
-## Citation
-
-If this code is useful for your research, please cite:
-
-```bibtex
-@misc{lotfi2026nzflow,
-  author = {Lotfi, Ali},
-  title  = {A QUBO Formulation for Nowhere-Zero $k$-Flows},
-  year   = {2026},
-  note   = {arXiv preprint, forthcoming}
-}
 ```
