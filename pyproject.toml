@@ -10,7 +10,13 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Ali Lotfi", email = "ali.lotfi@usask.ca" },
+    { name = "Ali Lotfi", email = "all054@usask.ca" },
+    { name = "Adam Carter", email = "adam.carter@usask.ca" },
+    { name = "Mohammad Meysami", email = "mohammad-meysami@utulsa.edu" },
+    { name = "Thuan Ha", email = "thuan.ha@usask.ca" },
+    { name = "Kwabena Abrefa Nketia", email = "kwabena.nketia@usask.ca" },
+    { name = "Steven J. Shirtliffe", email = "steve.shirtliffe@usask.ca" },
+    { name = "Steven Rayan", email = "rayan@math.usask.ca" },
 ]
 dependencies = [
     "dimod>=0.12",

@@ -4,12 +4,13 @@ A QUBO formulation for nowhere-zero $k$-flows on graphs, ready to run on
 D-Wave quantum annealers, hybrid solvers, or local simulated annealing.
 
 This is the reference implementation accompanying the paper
-**"A QUBO Formulation for Nowhere-Zero $k$-Flows"** by Ali Lotfi
-(University of Saskatchewan).
+**"A QUBO Formulation for Nowhere-Zero $k$-Flows"** by Ali Lotfi,
+Adam Carter, Mohammad Meysami, Thuan Ha, Kwabena Abrefa Nketia,
+Steven J. Shirtliffe, and Steven Rayan.
 
 ## What this does
 
-For any loopless multigraph $G$ and integer $k > 1$, build a
+For any nonempty loopless multigraph $G$ and integer $k > 1$, build a
 quadratic Hamiltonian $H_{\mathrm{mod},k}$ over binary variables whose
 ground-state energy is zero if and only if $G$ admits a nowhere-zero
 $\mathbb{Z}_k$-flow. By Tutte's equivalence theorem this is equivalent
@@ -39,18 +40,24 @@ pip install -e .
 
 ```python
 from nzflow_qubo import build_hamiltonian, solve_neal
-from nzflow_qubo.benchmarks import petersen
+from nzflow_qubo.benchmarks import K
 
-# Build H_{mod, 5} for the Petersen graph
-spec = build_hamiltonian(petersen(), k=5)
-print(f"Variables: {spec.n_vars}")  # 87
+# Build H_{mod,4} for K_4
+spec = build_hamiltonian(K(4), k=4)
+print(f"Variables: {spec.n_vars}")  # 27
 
 # Run local simulated annealing
-result = solve_neal(spec, num_reads=1000, seed=42, num_sweeps=5000)
-print(f"Best energy: {result.best_energy}")  # ~0 (Petersen has phi = 5)
+result = solve_neal(spec, num_reads=200, seed=42, num_sweeps=2000)
+print(f"Best energy: {result.best_energy}")
 flow = result.best_flow()
-print(f"Recovered flow: {flow}")
+if flow is not None:
+    print(f"Recovered zero-energy flow: {flow}")
+else:
+    print("Best sample was not a valid flow; increase reads/sweeps or use an exact solver.")
 ```
+
+For harder instances such as Petersen at $k=5$, simulated annealing may still return
+strictly positive energies even though a zero-energy state exists.
 
 ## Running on D-Wave hardware
 
@@ -72,6 +79,22 @@ To reproduce the representative cases from Table 1:
 ```bash
 python examples/reproduce_table1.py
 ```
+
+To generate the paper-ready LaTeX/CSV/JSON tables:
+
+```bash
+python scripts/generate_paper_tables.py
+```
+
+This writes the following files into `generated/`:
+
+- `theorem_representative.tex` / `.csv` / `.json`
+- `qubo_structure.tex` / `.csv` / `.json`
+- `robustness_summary.tex` / `.csv` / `.json`
+- `snark_benchmarks.tex` / `.csv` / `.json`
+
+The snark table reproduces Table 7 of the paper (Petersen graph and the
+Isaacs flower snarks $J_5$ and $J_7$) at $k\in\{3,4,5\}$.
 
 Output:
 
@@ -96,17 +119,17 @@ roughly 20 seconds on a laptop).
 pytest tests/ -v
 ```
 
-The test suite checks all three verification levels from the paper:
+The test suite checks all three verification levels from the paper together with edge-case, robustness, and snark tests:
 
-- **C1** — every nowhere-zero Z_k-flow encodes to H_{mod,k} = 0
+- **C1** — every nowhere-zero $\mathbb{Z}_k$-flow encodes to $H_{\mathrm{mod},k}=0$
 - **C2** — random non-flow labellings have positive minimum energy after
   optimizing over quotient bits
 - **C3** — exact ground-state enumeration finds exactly as many
   zero-energy states as the brute-force flow enumerator
 
 It also runs robustness sweeps over orientation, root choice, and
-penalty weights (A, B), confirming the parameter-independence
-guaranteed by Theorem 3.5.
+penalty weights $(A,B)$, confirming the parameter independence
+guaranteed by Theorem 3.6, and verifies the snark suite (Petersen, $J_5$, $J_7$).
 
 ## Structure
 
@@ -117,10 +140,15 @@ nzflow_qubo/
   enumerator.py   # ground-truth enumeration of nowhere-zero Z_k flows
   solvers.py      # exact, neal, qpu wrappers
   benchmarks.py   # K_n, K_{m,n}, C_n, Q_3, Petersen, Theta_3, K_4-doubled
+  snarks.py       # Petersen and Isaacs flower snarks J_n
 tests/
-  test_correctness.py    # C1, C2, C3 + robustness suite
+  test_correctness.py    # C1, C2, C3 + robustness + snark suite
 examples/
-  reproduce_table1.py    # paper's representative table
+  reproduce_table1.py    # representative table reproduction
+scripts/
+  generate_paper_tables.py  # generates the paper's LaTeX/CSV/JSON tables
+generated/
+  *.tex, *.csv, *.json      # generated on demand
 ```
 
 ## Mapping to the paper
@@ -130,14 +158,14 @@ examples/
 | `Multigraph`, `Orientation`, `signed_incidence` | Section 2.1, 2.2; Definitions 2.1, 2.6, 2.7 |
 | `Multigraph.has_bridge()` | Definition 2.10 |
 | `enumerate_flows`, `count_flows` | (C3) of Section 4.1 |
-| `build_hamiltonian` | Equation (3.1) and Definition 3.4 |
-| `encode_flow` | Reverse direction of the proof of Theorem 3.5 |
-| `decode_flow` | Forward direction of the proof of Theorem 3.5 |
+| `build_hamiltonian` | Equation (3.1) and Definition 3.5 |
+| `encode_flow` | Forward direction of the proof of Theorem 3.6 |
+| `decode_flow` | Converse direction of the proof of Theorem 3.6 |
 | `solve_exact` | Ground-state enumeration in (C3) |
-| `solve_neal` | Simulated-annealing baseline (Section 4.5, future work) |
+| `solve_neal` | Simulated-annealing baseline (Section 4.6) |
 | `solve_qpu` | D-Wave hardware deployment (Section 5, future work) |
+| `petersen_snark`, `flower_snark`, `SNARK_SUITE` | Section 4.4, Table 7 |
 
 ## License
 
 MIT.
-```

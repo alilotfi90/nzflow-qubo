@@ -18,7 +18,7 @@ from dataclasses import dataclass
 import dimod
 from dimod import ExactSolver
 
-from .hamiltonian import HamiltonianSpec, decode_flow
+from .hamiltonian import HamiltonianSpec, decode_flow, is_valid_flow
 
 
 @dataclass
@@ -37,8 +37,13 @@ class SolveResult:
         return dict(self.sampleset.first.sample)
 
     def best_flow(self) -> dict[int, int] | None:
-        """Decode the best sample as a flow, or return None if invalid."""
-        return decode_flow(self.spec, self.best_sample)
+        """Return the best sample decoded as a valid flow, if one is present.
+
+        This checks both one-hot decoding and modular conservation. A low-energy
+        sample need not be a valid flow unless its energy is zero.
+        """
+        f = decode_flow(self.spec, self.best_sample)
+        return f if (f is not None and is_valid_flow(self.spec, f)) else None
 
     def zero_energy_flows(self) -> list[dict[int, int]]:
         """Decode every zero-energy sample to a flow.
@@ -52,13 +57,19 @@ class SolveResult:
         ):
             if abs(energy) < 1e-9:
                 f = decode_flow(self.spec, dict(sample))
-                if f is not None:
+                if f is not None and is_valid_flow(self.spec, f):
                     flows.append(f)
         return flows
 
 
 def solve_exact(spec: HamiltonianSpec) -> SolveResult:
-    """Brute-force ground-state enumeration. O(2^N) — small graphs only."""
+    """Brute-force ground-state enumeration. O(2^N) — small graphs only.
+
+    For a zero-variable BQM, return the single empty sample at the model offset.
+    """
+    if len(spec.bqm.variables) == 0:
+        ss = dimod.SampleSet.from_samples([{}], vartype="BINARY", energy=[float(spec.bqm.offset)])
+        return SolveResult(sampleset=ss, spec=spec)
     sampler = ExactSolver()
     ss = sampler.sample(spec.bqm)
     return SolveResult(sampleset=ss, spec=spec)

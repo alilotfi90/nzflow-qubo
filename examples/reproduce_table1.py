@@ -3,7 +3,7 @@ Reproduce the representative results from Table 1 of the paper.
 
 For each (G, k) configuration:
   - count nowhere-zero Z_k flows by direct enumeration when feasible
-  - encode every flow via the proof of Theorem 3.5 and verify
+  - encode every flow via the proof of Theorem 3.6 and verify
     H_{mod,k} = 0 (the C1 check)
 
 Run with:

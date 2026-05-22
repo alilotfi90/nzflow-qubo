@@ -1,0 +1,50 @@
+[
+  {
+    "sweep": "orientations",
+    "graph": "K_4",
+    "k": 4,
+    "cases": 64,
+    "invariant": 6,
+    "status": true
+  },
+  {
+    "sweep": "orientations",
+    "graph": "K_{3,3}",
+    "k": 3,
+    "cases": 512,
+    "invariant": 2,
+    "status": true
+  },
+  {
+    "sweep": "orientations",
+    "graph": "Theta_3",
+    "k": 3,
+    "cases": 8,
+    "invariant": 2,
+    "status": true
+  },
+  {
+    "sweep": "roots",
+    "graph": "K_{3,3}",
+    "k": 3,
+    "cases": 6,
+    "invariant": 2,
+    "status": true
+  },
+  {
+    "sweep": "roots",
+    "graph": "Petersen",
+    "k": 5,
+    "cases": 10,
+    "invariant": 240,
+    "status": true
+  },
+  {
+    "sweep": "weights",
+    "graph": "Theta_3",
+    "k": 4,
+    "cases": 6,
+    "invariant": 6,
+    "status": true
+  }
+]

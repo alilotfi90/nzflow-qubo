@@ -1,0 +1,21 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\hline
+Graph & $k$ & $n$ & $|E|$ & $\beta$ & \#flows & C1 & vars & couplers \\
+\hline
+Petersen & 3 & 10 & 15 & 6 & 0 & -- & 57 & 312 \\
+Petersen & 4 & 10 & 15 & 6 & 0 & -- & 72 & 558 \\
+Petersen & 5 & 10 & 15 & 6 & 240 & yes & 87 & 873 \\
+Flower snark $J_5$ & 3 & 20 & 30 & 11 & 0 & -- & 117 & 657 \\
+Flower snark $J_5$ & 4 & 20 & 30 & 11 & 0 & -- & 147 & 1173 \\
+Flower snark $J_5$ & 5 & 20 & 30 & 11 & 16200 & yes & 177 & 1833 \\
+Flower snark $J_7$ & 3 & 28 & 42 & 15 & 0 & -- & 165 & 933 \\
+Flower snark $J_7$ & 4 & 28 & 42 & 15 & -- & -- & 207 & 1665 \\
+Flower snark $J_7$ & 5 & 28 & 42 & 15 & -- & -- & 249 & 2601 \\
+\hline
+\end{tabular}
+\caption{Snark benchmarks. The Petersen graph and the Isaacs flower snarks $J_5$ (20 vertices) and $J_7$ (28 vertices) are connected, bridgeless, cubic, girth at least $5$, and not $3$-edge-colorable; \texttt{flower\_snark(5)} is verified isomorphic to SageMath's canonical \texttt{graphs.FlowerSnark()}. Since for cubic graphs $3$-edge-colorability is equivalent to admitting a nowhere-zero $4$-flow, and a nowhere-zero $3$-flow would imply a nowhere-zero $4$-flow, the $k\in\{3,4\}$ snark rows are no-instances. The $k=5$ rows probe the near-threshold case: Petersen and $J_5$ are confirmed yes-instances by the enumerated counts in the table, while the $J_7,k=5$ enumeration is outside the stated budget. The column \#flows is the exact cycle-space enumerator count when the enumeration is within budget; a dash (--) in the \#flows column marks configurations whose enumeration $(k-1)^\beta$ exceeds the budget $5\times 10^6$. The C1 column is marked yes when enumerated flows were checked to encode to $H_{\mathrm{mod},k}=0$, and is marked -- when C1 is vacuous or outside budget. The structural columns are exact for every row. For $J_7,k=4$, the no-instance conclusion follows from non-$3$-edge-colorability rather than from enumeration.}
+\label{tab:snark-benchmarks}
+\end{table}

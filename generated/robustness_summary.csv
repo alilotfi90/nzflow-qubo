@@ -1,0 +1,7 @@
+sweep,graph,k,cases,invariant,status
+orientations,K_4,4,64,6,True
+orientations,"K_{3,3}",3,512,2,True
+orientations,Theta_3,3,8,2,True
+roots,"K_{3,3}",3,6,2,True
+roots,Petersen,5,10,240,True
+weights,Theta_3,4,6,6,True

@@ -60,3 +60,14 @@ def K4_doubled() -> Multigraph:
     base = [(i, j) for i in range(4) for j in range(i + 1, 4)]
     edges = tuple(base + base)
     return Multigraph(n=4, edges=edges)
+
+
+
+def triangular_prism() -> Multigraph:
+    """Triangular prism graph: 6 vertices, 9 edges, flow number 4."""
+    edges = (
+        (0, 1), (1, 2), (2, 0),
+        (3, 4), (4, 5), (5, 3),
+        (0, 3), (1, 4), (2, 5),
+    )
+    return Multigraph(n=6, edges=edges)

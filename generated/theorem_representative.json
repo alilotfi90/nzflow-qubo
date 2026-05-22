@@ -1,0 +1,112 @@
+[
+  {
+    "graph": "K_3",
+    "k": 2,
+    "edges": 3,
+    "beta": 1,
+    "flows": 1,
+    "c1": true,
+    "n_vars": 7,
+    "zero_energy_states_exact": 1
+  },
+  {
+    "graph": "K_4",
+    "k": 3,
+    "edges": 6,
+    "beta": 3,
+    "flows": 0,
+    "c1": true,
+    "n_vars": 21,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "K_4",
+    "k": 4,
+    "edges": 6,
+    "beta": 3,
+    "flows": 6,
+    "c1": true,
+    "n_vars": 27,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "K_{3,3}",
+    "k": 3,
+    "edges": 9,
+    "beta": 4,
+    "flows": 2,
+    "c1": true,
+    "n_vars": 33,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "Theta_3",
+    "k": 3,
+    "edges": 3,
+    "beta": 2,
+    "flows": 2,
+    "c1": true,
+    "n_vars": 9,
+    "zero_energy_states_exact": 2
+  },
+  {
+    "graph": "Triangular prism",
+    "k": 3,
+    "edges": 9,
+    "beta": 4,
+    "flows": 0,
+    "c1": true,
+    "n_vars": 33,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "Petersen",
+    "k": 3,
+    "edges": 15,
+    "beta": 6,
+    "flows": 0,
+    "c1": true,
+    "n_vars": 57,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "Petersen",
+    "k": 4,
+    "edges": 15,
+    "beta": 6,
+    "flows": 0,
+    "c1": true,
+    "n_vars": 72,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "Petersen",
+    "k": 5,
+    "edges": 15,
+    "beta": 6,
+    "flows": 240,
+    "c1": true,
+    "n_vars": 87,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "K_4 doubled",
+    "k": 3,
+    "edges": 12,
+    "beta": 9,
+    "flows": 176,
+    "c1": true,
+    "n_vars": 36,
+    "zero_energy_states_exact": null
+  },
+  {
+    "graph": "Q_3",
+    "k": 5,
+    "edges": 12,
+    "beta": 5,
+    "flows": 156,
+    "c1": true,
+    "n_vars": 69,
+    "zero_energy_states_exact": null
+  }
+]

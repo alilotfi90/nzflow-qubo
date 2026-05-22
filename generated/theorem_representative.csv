@@ -1,0 +1,12 @@
+graph,k,edges,beta,flows,c1,n_vars,zero_energy_states_exact
+K_3,2,3,1,1,True,7,1
+K_4,3,6,3,0,True,21,
+K_4,4,6,3,6,True,27,
+"K_{3,3}",3,9,4,2,True,33,
+Theta_3,3,3,2,2,True,9,2
+Triangular prism,3,9,4,0,True,33,
+Petersen,3,15,6,0,True,57,
+Petersen,4,15,6,0,True,72,
+Petersen,5,15,6,240,True,87,
+K_4 doubled,3,12,9,176,True,36,
+Q_3,5,12,5,156,True,69,

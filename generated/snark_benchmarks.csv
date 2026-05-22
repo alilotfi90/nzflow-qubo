@@ -1,0 +1,10 @@
+graph,k,n_vertices,n_edges,beta,flow_count,C1,vars,couplers
+Petersen,3,10,15,6,0,--,57,312
+Petersen,4,10,15,6,0,--,72,558
+Petersen,5,10,15,6,240,yes,87,873
+Flower snark $J_5$,3,20,30,11,0,--,117,657
+Flower snark $J_5$,4,20,30,11,0,--,147,1173
+Flower snark $J_5$,5,20,30,11,16200,yes,177,1833
+Flower snark $J_7$,3,28,42,15,0,--,165,933
+Flower snark $J_7$,4,28,42,15,,--,207,1665
+Flower snark $J_7$,5,28,42,15,,--,249,2601

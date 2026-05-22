@@ -10,6 +10,7 @@ solvers, exact solvers).
 from __future__ import annotations
 from dataclasses import dataclass
 from math import ceil, floor, log2
+from typing import Any
 
 import dimod
 
@@ -30,6 +31,8 @@ class HamiltonianSpec:
     n_one_hot_vars: int
     n_quotient_vars: int
     quotient_bits: dict[int, int]  # vertex v in V* -> B_v
+    quotient_L: dict[int, int]     # vertex v in V* -> L_v
+    quotient_U: dict[int, int]     # vertex v in V* -> U_v
 
     @property
     def n_vars(self) -> int:
@@ -55,10 +58,10 @@ def quotient_range(d: int, k: int) -> tuple[int, int, int]:
     L = ceil(-((k - 1) * d) / k)
     U = floor(((k - 1) * d) / k)
     width = U - L + 1
-    if width <= 1:
-        B = 1  # always need at least one bit even if range is a single value
-    else:
-        B = max(1, ceil(log2(width)))
+    if width <= 0:
+        raise ValueError(f"invalid quotient width {width} for d={d}, k={k}")
+    # If the quotient range has size 1, no auxiliary bit is needed.
+    B = 0 if width == 1 else ceil(log2(width))
     return L, U, B
 
 
@@ -111,6 +114,7 @@ def build_hamiltonian(
     # p_{v, b} for v in V*, b = 0, ..., B_v - 1
     quotient_bits: dict[int, int] = {}
     quotient_L: dict[int, int] = {}
+    quotient_U: dict[int, int] = {}
     n_quot = 0
     for v in range(G.n):
         if v == root:
@@ -119,6 +123,7 @@ def build_hamiltonian(
         L, U, Bv = quotient_range(d_v, k)
         quotient_bits[v] = Bv
         quotient_L[v] = L
+        quotient_U[v] = U
         for b in range(Bv):
             bqm.add_variable(quot_var(v, b))
         n_quot += Bv
@@ -196,14 +201,16 @@ def build_hamiltonian(
         n_one_hot_vars=n_one_hot,
         n_quotient_vars=n_quot,
         quotient_bits=quotient_bits,
+        quotient_L=quotient_L,
+        quotient_U=quotient_U,
     )
 
 
 def encode_flow(spec: HamiltonianSpec, flow: dict[int, int]) -> dict[str, int]:
     """Encode a nowhere-zero Z_k flow as a sample dict.
 
-    Implements the assignment from the reverse direction of the proof of
-    Theorem 3.5: x_{e,a} = 1 iff a = flow[e], plus the quotient bits
+    Implements the assignment from the proof of Theorem 3.6:
+    x_{e,a} = 1 iff a = flow[e], plus the quotient bits
     chosen so that M_v(p) = q_v where R_v = k * q_v.
 
     Parameters
@@ -268,3 +275,44 @@ def decode_flow(spec: HamiltonianSpec, sample: dict[str, int]) -> dict[int, int]
             return None
         flow[e] = on[0]
     return flow
+
+
+def flow_residuals(spec: HamiltonianSpec, flow: dict[int, int]) -> dict[int, int]:
+    """Return the integer vertex residuals R_v for a decoded edge labelling."""
+    return {
+        v: sum(signed_incidence(spec.D, v, e) * flow[e] for e in range(spec.G.m))
+        for v in range(spec.G.n)
+    }
+
+
+def is_valid_flow(spec: HamiltonianSpec, flow: dict[int, int]) -> bool:
+    """Check whether a decoded edge labelling is a nowhere-zero Z_k-flow."""
+    if set(flow.keys()) != set(range(spec.G.m)):
+        return False
+    for e, val in flow.items():
+        if not (1 <= val <= spec.k - 1):
+            return False
+    return all(r % spec.k == 0 for r in flow_residuals(spec, flow).values())
+
+
+def qubo_stats(spec: HamiltonianSpec) -> dict[str, Any]:
+    """Basic structural statistics for the built QUBO/BQM."""
+    bqm = spec.bqm
+    n = len(bqm.variables)
+    q = len(bqm.quadratic)
+    lin_vals = [float(v) for v in bqm.linear.values()]
+    quad_vals = [float(v) for v in bqm.quadratic.values()]
+    density = q / (n * (n - 1) / 2) if n > 1 else 0.0
+    return {
+        "n_vars": n,
+        "n_one_hot_vars": spec.n_one_hot_vars,
+        "n_quotient_vars": spec.n_quotient_vars,
+        "n_linear_nonzero": sum(1 for v in lin_vals if abs(v) > 1e-12),
+        "n_quadratic": q,
+        "density": density,
+        "linear_min": min(lin_vals) if lin_vals else 0.0,
+        "linear_max": max(lin_vals) if lin_vals else 0.0,
+        "quadratic_min": min(quad_vals) if quad_vals else 0.0,
+        "quadratic_max": max(quad_vals) if quad_vals else 0.0,
+        "offset": float(bqm.offset),
+    }

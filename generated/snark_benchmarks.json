@@ -1,0 +1,101 @@
+[
+  {
+    "graph": "Petersen",
+    "k": 3,
+    "n_vertices": 10,
+    "n_edges": 15,
+    "beta": 6,
+    "flow_count": 0,
+    "C1": "--",
+    "vars": 57,
+    "couplers": 312
+  },
+  {
+    "graph": "Petersen",
+    "k": 4,
+    "n_vertices": 10,
+    "n_edges": 15,
+    "beta": 6,
+    "flow_count": 0,
+    "C1": "--",
+    "vars": 72,
+    "couplers": 558
+  },
+  {
+    "graph": "Petersen",
+    "k": 5,
+    "n_vertices": 10,
+    "n_edges": 15,
+    "beta": 6,
+    "flow_count": 240,
+    "C1": "yes",
+    "vars": 87,
+    "couplers": 873
+  },
+  {
+    "graph": "Flower snark $J_5$",
+    "k": 3,
+    "n_vertices": 20,
+    "n_edges": 30,
+    "beta": 11,
+    "flow_count": 0,
+    "C1": "--",
+    "vars": 117,
+    "couplers": 657
+  },
+  {
+    "graph": "Flower snark $J_5$",
+    "k": 4,
+    "n_vertices": 20,
+    "n_edges": 30,
+    "beta": 11,
+    "flow_count": 0,
+    "C1": "--",
+    "vars": 147,
+    "couplers": 1173
+  },
+  {
+    "graph": "Flower snark $J_5$",
+    "k": 5,
+    "n_vertices": 20,
+    "n_edges": 30,
+    "beta": 11,
+    "flow_count": 16200,
+    "C1": "yes",
+    "vars": 177,
+    "couplers": 1833
+  },
+  {
+    "graph": "Flower snark $J_7$",
+    "k": 3,
+    "n_vertices": 28,
+    "n_edges": 42,
+    "beta": 15,
+    "flow_count": 0,
+    "C1": "--",
+    "vars": 165,
+    "couplers": 933
+  },
+  {
+    "graph": "Flower snark $J_7$",
+    "k": 4,
+    "n_vertices": 28,
+    "n_edges": 42,
+    "beta": 15,
+    "flow_count": null,
+    "C1": "--",
+    "vars": 207,
+    "couplers": 1665
+  },
+  {
+    "graph": "Flower snark $J_7$",
+    "k": 5,
+    "n_vertices": 28,
+    "n_edges": 42,
+    "beta": 15,
+    "flow_count": null,
+    "C1": "--",
+    "vars": 249,
+    "couplers": 2601
+  }
+]
