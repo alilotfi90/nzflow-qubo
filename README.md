@@ -121,7 +121,7 @@ pytest tests/ -v
 
 The test suite checks all three verification levels from the paper together with edge-case, robustness, and snark tests:
 
-- **C1** — every nowhere-zero $\mathbb{Z}_k$-flow encodes to $H_{\mathrm{mod},k}=0$
+- **C1** — every nowhere-zero `Z_k`-flow encodes to `H_{mod,k} = 0`
 - **C2** — random non-flow labellings have positive minimum energy after
   optimizing over quotient bits
 - **C3** — exact ground-state enumeration finds exactly as many
